@@ -1,0 +1,7 @@
+responses:
+  Profile200:
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: "./schemas.yaml#/schemas/Profile"

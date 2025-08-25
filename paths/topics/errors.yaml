@@ -1,0 +1,73 @@
+components:
+  responses:
+    PostValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [validation_error]
+                        example: validation_error
+                        description: Global validation error code.
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          required: [field, code]
+                          properties:
+                            code:
+                              $ref: "#/components/schemas/PostValidationErrorCode"
+
+    TopicValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [validation_error]
+                        example: validation_error
+                        description: Global validation error code.
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          required: [field, code]
+                          properties:
+                            code:
+                              $ref: "#/components/schemas/TopicValidationErrorCode"
+
+  schemas:
+    # Re-exporting base error schema
+    Error:
+      $ref: "../../errors.yaml#/components/schemas/Error"
+
+    PostValidationErrorCode:
+      type: string
+      enum:
+        - topics.post.validation.text_missing
+        - topics.post.validation.text_too_long
+        - topics.post.validation.too_many_attachments
+        - topics.post.validation.attachment_too_large
+        - topics.post.validation.attachment_invalid_format
+
+    TopicValidationErrorCode:
+      type: string
+      enum:
+        - topics.validation.search_too_short
+        - topics.validation.invalid_tags_format

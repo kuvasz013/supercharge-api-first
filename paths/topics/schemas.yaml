@@ -1,0 +1,173 @@
+schemas:
+  TopicSummary:
+    type: object
+    required:
+      - id
+      - title
+      - reply_count
+      - latest_activity
+      - tags
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Unique identifier for the topic
+      title:
+        type: string
+        description: Short description of the topic
+      reply_count:
+        type: integer
+        description: Number of replies in this topic
+      latest_activity:
+        type: string
+        format: date-time
+        description: Latest activity timestamp
+      tags:
+        type: array
+        maxItems: 5
+        items:
+          $ref: "#/schemas/Tag"
+        description: Top 5 most popular tags for this topic
+
+  TopicDetail:
+    type: object
+    required:
+      - id
+      - title
+      - posts
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Unique identifier for the topic
+      title:
+        type: string
+        description: Short description of the topic
+      posts:
+        type: array
+        items:
+          $ref: "#/schemas/Post"
+        description: Posts in this topic
+
+  Post:
+    type: object
+    required:
+      - id
+      - text
+      - creator_name
+      - creation_date
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Unique identifier for the post
+      text:
+        type: string
+        description: The text content of the post
+      creator_name:
+        type: string
+        description: Name of the creator of the post
+      creation_date:
+        type: string
+        format: date-time
+        description: Creation date of the post
+      attachments:
+        type: array
+        items:
+          $ref: "#/schemas/PostAttachment"
+        description: List of attachments in this post
+
+  Attachment:
+    type: object
+    required:
+      - file
+      - filename
+      - mime_type
+    properties:
+      file:
+        type: string
+        format: binary
+        description: The actual file content
+      filename:
+        type: string
+        minLength: 1
+        maxLength: 255
+        pattern: '^[^<>:"/\\|?*]+$'
+        description: Original filename of the uploaded file
+      mime_type:
+        type: string
+        pattern: "^(image/(jpeg|jpg|png)|application/pdf)$"
+        description: "MIME type of the file. Supported: JPEG, PNG, PDF"
+      description:
+        type: string
+        maxLength: 500
+        description: Optional description or caption for the attachment
+      size:
+        type: integer
+        minimum: 1
+        maximum: 5242880
+        description: File size in bytes (max 5MB = 5,242,880 bytes)
+        readOnly: true
+
+  PostAttachment:
+    type: object
+    required:
+      - id
+      - filename
+      - mime_type
+      - size
+      - url
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Unique identifier for the attachment
+      filename:
+        type: string
+        description: Original filename of the uploaded file
+      mime_type:
+        type: string
+        description: MIME type of the file
+      url:
+        type: string
+        format: uri
+        description: URL to download/view the attachment
+      description:
+        type: string
+        description: Optional description or caption for the attachment
+
+  CreatePostRequest:
+    type: object
+    required:
+      - text
+    properties:
+      text:
+        type: string
+        minLength: 1
+        maxLength: 10000
+        pattern: '^\\s*\\S+.*$'
+        description: Post text content (must contain at least one non-whitespace character)
+      attachments:
+        type: array
+        maxItems: 3
+        items:
+          $ref: "#/schemas/Attachment"
+        description: File attachments (max 3 files, max 5MB each)
+
+  Tag:
+    type: object
+    required:
+      - id
+      - name
+      - topic_count
+    properties:
+      id:
+        type: string
+        format: uuid
+        description: Unique identifier for the tag
+      name:
+        type: string
+        description: Tag name
+      topic_count:
+        type: integer
+        description: Number of topics using this tag (used for ordering)

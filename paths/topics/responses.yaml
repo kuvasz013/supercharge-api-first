@@ -1,0 +1,48 @@
+responses:
+  TopicList200:
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - data
+            - filter_count
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/schemas/TopicSummary"
+              description: Array of topic summary objects
+            filter_count:
+              type: integer
+              description: Number of ongoing topics that match the filter criteria
+
+  TopicDetail200:
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: "./schemas.yaml#/schemas/TopicDetail"
+
+  Post201:
+    description: Created
+    content:
+      application/json:
+        schema:
+          $ref: "./schemas.yaml#/schemas/Post"
+
+  TagList200:
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - data
+          properties:
+            data:
+              type: array
+              items:
+                $ref: "./schemas.yaml#/schemas/Tag"
+              description: Array of all available topic tags ordered by popularity

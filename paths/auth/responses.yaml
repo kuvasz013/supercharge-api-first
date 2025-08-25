@@ -1,0 +1,7 @@
+responses:
+  TokenResponse200:
+    description: Authentication successful
+    content:
+      application/json:
+        schema:
+          $ref: "./schemas.yaml#/schemas/TokenResponse"

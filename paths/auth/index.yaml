@@ -1,0 +1,66 @@
+openapi: 3.1.0
+tags:
+  - name: auth
+    description: Simple authentication with refresh tokens
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login
+      description: >
+        Validates user login credentials, returns a JWT access token and a refresh token. Very simple auth, acceptable for POC, not suitable for production.
+      operationId: auth.login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/schemas/LoginCredentials"
+      responses:
+        "200":
+          $ref: "./responses.yaml#/responses/TokenResponse200"
+        "401":
+          $ref: "./errors.yaml#/components/responses/LoginError"
+
+  /auth/validate:
+    post:
+      tags:
+        - auth
+      summary: Validate Login Fields
+      description: >
+        Validates individual login fields for real-time validation. Can be called when user moves between fields 
+        or clicks the Login button.
+        <p style="color:red;">IMPORTANT: Revealing so much information of the application state is very bad practice.</p>
+      operationId: auth.validate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/schemas/LoginCredentials"
+      responses:
+        "204":
+          description: Success
+        "400":
+          $ref: "./errors.yaml#/components/responses/ValidationError"
+
+  /auth/refresh:
+    post:
+      tags:
+        - auth
+      summary: Refresh Token
+      description: Get new access token using refresh token
+      operationId: auth.refresh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas.yaml#/schemas/RefreshRequest"
+      responses:
+        "200":
+          $ref: "./responses.yaml#/responses/TokenResponse200"
+        "401":
+          $ref: "./errors.yaml#/components/responses/RefreshError"

@@ -1,0 +1,44 @@
+components:
+  responses:
+    ProfileUpdateValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [validation_error]
+                        example: validation_error
+                        description: Global validation error code.
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          required: [field, code]
+                          properties:
+                            code:
+                              $ref: "#/components/schemas/ProfileUpdateValidationErrorCode"
+
+  schemas:
+    # Re-exporting base error schema
+    Error:
+      $ref: "../../errors.yaml#/components/schemas/Error"
+
+    ProfileUpdateValidationErrorCode:
+      type: string
+      enum:
+        - profile.validation.missing_email
+        - profile.validation.invalid_email
+        - profile.validation.missing_firstname
+        - profile.validation.firstname_too_short
+        - profile.validation.firstname_invalid_chars
+        - profile.validation.missing_lastname
+        - profile.validation.lastname_too_short
+        - profile.validation.lastname_invalid_chars

@@ -1,0 +1,94 @@
+components:
+  responses:
+    LoginError:
+      description: Login failed
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [auth.login.invalid_credentials]
+                        example: auth.login.invalid_credentials
+                        description: Invalid login credentials.
+
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [validation_error]
+                        example: validation_error
+                        description: Global validation error code.
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          required: [field, code]
+                          properties:
+                            code:
+                              $ref: "#/components/schemas/LoginValidationErrorCode"
+
+    RefreshError:
+      description: Token refresh failed
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [auth.refresh.invalid_token]
+                        example: auth.refresh.invalid_token
+                        description: Invalid or expired refresh token.
+
+    UnauthorizedError:
+      description: Unauthorized access
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [auth.unauthorized]
+                        example: auth.unauthorized
+                        description: Unauthorized access.
+
+  schemas:
+    # Re-exporting base error schema
+    Error:
+      $ref: "../../errors.yaml#/components/schemas/Error"
+
+    LoginValidationErrorCode:
+      type: string
+      enum:
+        - auth.login.validation.email_not_found
+        - auth.login.validation.email_invalid_format
+        - auth.login.validation.password_incorrect
+        - auth.login.validation.password_too_short

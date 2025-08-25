@@ -4,70 +4,70 @@ tags:
     description: Endpoints dealing with user signup
 
 paths:
-  /auth/signup/details:
+  /signup/details:
     post:
       tags:
         - signup
-      summary: Set user details (step 1/3 of signup)
-      description: First step of the signup process. Validates user details.
-      operationId: auth.signup.details
+      summary: Set Profile Details (step 1/3 of signup)
+      description: First step of the signup process. Validates profile details.
+      operationId: signup.details
       requestBody:
         required: true
-        description: User registration details.
+        description: Profile registration details.
         content:
           application/json:
             schema:
-              $ref: "./schemas.yaml#/components/schemas/SignupDetails"
+              $ref: "./schemas.yaml#/schemas/SignupDetails"
       responses:
         "200":
-          $ref: "./responses.yml#/responses/SuccessfulSignupStep"
+          $ref: "./responses.yaml#/responses/SuccessfulSignupStep200"
         "400":
           $ref: "./errors.yaml#/components/responses/SignupDetailsValidationError"
         "409":
           $ref: "./errors.yaml#/components/responses/SignupDetailsEmailExistsError"
 
-  /auth/signup/password:
+  /signup/password:
     post:
       tags:
         - signup
-      summary: Set password (step 2/3 of signup)
+      summary: Set Password (step 2/3 of signup)
       description: |
         Allows a user to define a secure password as part of the registration flow. 
         Password must meet strength requirements.
-      operationId: auth.signup.password
+      operationId: signup.password
       requestBody:
         required: true
         description: Password to set.
         content:
           application/json:
             schema:
-              $ref: "./schemas.yaml#/components/schemas/SignupPassword"
+              $ref: "./schemas.yaml#/schemas/SignupPassword"
       responses:
         "200":
-          $ref: "./responses.yml#/responses/SuccessfulSignupStep"
+          $ref: "./responses.yaml#/responses/SuccessfulSignupStep200"
         "400":
           $ref: "./errors.yaml#/components/responses/SignupPasswordValidationError"
         "404":
           $ref: "./errors.yaml#/components/responses/SignupSessionNotFoundError"
 
-  /auth/signup/finalize:
+  /signup/finalize:
     post:
       tags:
         - signup
-      summary: Finalize signup (step 3/3 of signup)
+      summary: Finalize Signup (step 3/3 of signup)
       description: |
         Final step of the signup process, creating a new user. User must accept T&C and can optionally accept marketing communications.
-      operationId: auth.signup.finalize
+      operationId: signup.finalize
       requestBody:
         required: true
         description: T&C acceptance and marketing consent.
         content:
           application/json:
             schema:
-              $ref: "./schemas.yaml#/components/schemas/SignupFinalize"
+              $ref: "./schemas.yaml#/schemas/SignupFinalize"
       responses:
         "201":
-          $ref: "./responses.yml#/responses/SignupFinalized"
+          description: "Created"
         "400":
           $ref: "./errors.yaml#/components/responses/SignupTermsValidationError"
         "404":

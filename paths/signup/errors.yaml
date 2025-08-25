@@ -16,7 +16,7 @@ components:
                         type: string
                         enum: [validation_error]
                         example: validation_error
-                        description: Global validation error code.
+                        description: Global validation error code
                       fields:
                         type: array
                         items:
@@ -80,7 +80,7 @@ components:
                         type: string
                         enum: [auth.signup.validation.tnc_not_accepted]
                         example: auth.signup.validation.tnc_not_accepted
-                        description: T&C not accepted.
+                        description: T&C not accepted
 
     SignupSessionNotFoundError:
       description: Session not found
@@ -98,21 +98,21 @@ components:
                         type: string
                         enum: [auth.signup.session_not_found]
                         example: auth.signup.session_not_found
-                        description: Session not found.
+                        description: Session not found
 
   schemas:
     # Re-exporting base error schema
     Error:
-      $ref: "../../../errors.yaml#/components/schemas/Error"
+      $ref: "../../errors.yaml#/components/schemas/Error"
 
     SignupDetailsValidationErrorCode:
       type: string
       enum:
-        - auth.signup.validation.missing_email
-        - auth.signup.validation.invalid_email
-        - auth.signup.validation.missing_firstname
-        - auth.signup.validation.firstname_too_short
-        - auth.signup.validation.firstname_invalid_chars
-        - auth.signup.validation.missing_lastname
-        - auth.signup.validation.lastname_too_short
-        - auth.signup.validation.lastname_invalid_chars
+        - signup.validation.missing_email
+        - signup.validation.invalid_email
+        - signup.validation.missing_firstname
+        - signup.validation.firstname_too_short
+        - signup.validation.firstname_invalid_chars
+        - signup.validation.missing_lastname
+        - signup.validation.lastname_too_short
+        - signup.validation.lastname_invalid_chars

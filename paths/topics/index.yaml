@@ -1,0 +1,115 @@
+openapi: 3.1.0
+tags:
+  - name: topics
+    description: Endpoints dealing with the topic board
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /topics:
+    get:
+      summary: List Topics
+      description: List topics ordered by latest activity
+      operationId: topics.get
+      security:
+        - bearerAuth: []
+      tags:
+        - topics
+      parameters:
+        - in: query
+          name: search
+          schema:
+            type: string
+            minLength: 3
+          description: Free-text search in topic title (starts-with, minimum 3 characters)
+        - in: query
+          name: tags
+          schema:
+            type: array
+            items:
+              type: string
+          description: List of tags to filter by (AND relation)
+
+      responses:
+        "200":
+          $ref: "./responses.yaml#/responses/TopicList200"
+        "400":
+          $ref: "./errors.yaml#/components/responses/TopicValidationError"
+        "401":
+          description: "Unauthorized"
+
+  /topics/{topicId}:
+    get:
+      summary: Get Topic Details
+      description: Get topic details and all posts in the topic
+      operationId: getTopic
+      parameters:
+        - in: path
+          name: topicId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      security:
+        - bearerAuth: []
+      tags:
+        - topics
+      responses:
+        "200":
+          $ref: "./responses.yaml#/responses/TopicDetail200"
+        "404":
+          description: Not Found
+        "401":
+          description: "Unauthorized"
+
+  /topics/{topicId}/posts:
+    post:
+      summary: Create New Post
+      description: Create a new post inside a topic
+      operationId: createPost
+      security:
+        - bearerAuth: []
+      tags:
+        - topics
+      parameters:
+        - in: path
+          name: topicId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "./schemas.yaml#/schemas/CreatePostRequest"
+      responses:
+        "201":
+          $ref: "./responses.yaml#/responses/Post201"
+        "400":
+          $ref: "./errors.yaml#/components/responses/PostValidationError"
+        "404":
+          description: Not Found
+        "401":
+          description: "Unauthorized"
+
+  /tags:
+    get:
+      summary: List Tags
+      description: List all available topic tags ordered by popularity (number of topics using each tag).
+      operationId: listTags
+      security:
+        - bearerAuth: []
+      tags:
+        - topics
+      responses:
+        "200":
+          $ref: "./responses.yaml#/responses/TagList200"
+        "401":
+          description: "Unauthorized"
