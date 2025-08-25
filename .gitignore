@@ -43,3 +43,5 @@ Thumbs.db
 *.bak
 *.tmp
 *.orig
+
+dist

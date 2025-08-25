@@ -2,6 +2,7 @@
   "name": "api-first",
   "packageManager": "yarn@4.2.2",
   "scripts": {
-    "build": "npx @redocly/cli build-docs index.yaml -o docs/index.html"
+    "join": "npx @redocly/cli join root.yaml paths/auth/auth/index.yaml paths/auth/signup/index.yaml -o dist/index.yaml",
+    "build": "yarn join && npx @redocly/cli build-docs dist/index.yaml -o docs/index.html"
   }
 }

@@ -1,3 +1,8 @@
+openapi: 3.1.0
+tags:
+  - name: signup
+    description: Endpoints dealing with user signup
+
 paths:
   /auth/signup/details:
     post:

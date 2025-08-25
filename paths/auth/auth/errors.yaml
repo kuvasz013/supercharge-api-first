@@ -1,0 +1,27 @@
+components:
+  responses:
+    ValidateCredentialsValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        $ref: "#/components/schemas/ValidateCredentialsValidationErrorCode"
+
+  schemas:
+    # Re-exporting base error schema
+    Error:
+      $ref: "../../../errors.yaml#/components/schemas/Error"
+
+    ValidateCredentialsValidationErrorCode:
+      type: string
+      enum:
+        - auth.login.validation.email_missing_or_invalid
+        - auth.login.validation.incorrect_password
