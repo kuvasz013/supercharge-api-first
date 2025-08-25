@@ -2,6 +2,6 @@
   "name": "api-first",
   "packageManager": "yarn@4.2.2",
   "scripts": {
-    "build": "npx @redocly/cli build-docs index.yaml -o static/index.html"
+    "build": "npx @redocly/cli build-docs index.yaml -o docs/index.html"
   }
 }
