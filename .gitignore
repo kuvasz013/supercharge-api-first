@@ -11,3 +11,35 @@
 
 #!.yarn/cache
 .pnp.*
+
+# Node
+node_modules/
+dist/
+build/
+coverage/
+.nyc_output/
+.env
+.env.*
+*.log
+
+# OpenAPI/Swagger generated files
+openapi.yaml
+swagger.yaml
+swagger.json
+*.swagger.json
+*.openapi.json
+*.openapi.yaml
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Misc
+*.bak
+*.tmp
+*.orig
