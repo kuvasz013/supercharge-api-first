@@ -1,0 +1,45 @@
+components:
+  responses:
+    ErrorResponse:
+      description: Standard error response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/ErrorDetails"
+    ErrorDetails:
+      type: object
+      required: [code]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+          description: Optional. Fallback error message.
+        details:
+          type: string
+          description: Optional. Additional details about the error. Developer-facing.
+        fields:
+          type: array
+          description: Optional. List of offending fields.
+          items:
+            $ref: "#/components/schemas/FieldError"
+    FieldError:
+      type: object
+      required: [field, code]
+      properties:
+        field:
+          type: string
+          description: Dot-notation path to the offending field.
+          example: myObject.myField
+        code:
+          type: string
+        message:
+          type: string
+          description: Optional. Fallback error message.

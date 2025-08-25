@@ -1,4 +1,7 @@
 {
   "name": "api-first",
-  "packageManager": "yarn@4.2.2"
+  "packageManager": "yarn@4.2.2",
+  "scripts": {
+    "build": "npx @redocly/cli build-docs index.yaml"
+  }
 }

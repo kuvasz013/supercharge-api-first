@@ -1,0 +1,14 @@
+openapi: 3.1.0
+info:
+  title: FinTech Information Forum API
+  version: 1.0.0
+  description: API document for FIF
+servers:
+  - url: https://fif.com/api/v1
+    description: FIF API
+
+paths:
+  $ref: "./paths/auth/signup/index.yaml#/paths"
+
+tags:
+  - name: signup

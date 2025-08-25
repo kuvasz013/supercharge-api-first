@@ -1,0 +1,118 @@
+components:
+  responses:
+    SignupDetailsValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [validation_error]
+                        example: validation_error
+                        description: Global validation error code.
+                      fields:
+                        type: array
+                        items:
+                          type: object
+                          required: [field, code]
+                          properties:
+                            code:
+                              $ref: "#/components/schemas/SignupDetailsValidationErrorCode"
+
+    SignupDetailsEmailExistsError:
+      description: Email already exists
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [auth.signup.email_exists]
+                        example: auth.signup.email_exists
+
+    SignupPasswordValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum:
+                          [
+                            auth.signup.validation.missing_password,
+                            auth.signup.validation.weak_password,
+                          ]
+                        example: auth.signup.validation.missing_password
+
+    SignupTermsValidationError:
+      description: T&C validation error
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [auth.signup.validation.tnc_not_accepted]
+                        example: auth.signup.validation.tnc_not_accepted
+                        description: T&C not accepted.
+
+    SignupSessionNotFoundError:
+      description: Session not found
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "#/components/schemas/Error"
+              - type: object
+                properties:
+                  error:
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                        enum: [auth.signup.session_not_found]
+                        example: auth.signup.session_not_found
+                        description: Session not found.
+
+  schemas:
+    # Re-exporting base error schema
+    Error:
+      $ref: "../../../errors.yaml#/components/schemas/Error"
+
+    SignupDetailsValidationErrorCode:
+      type: string
+      enum:
+        - auth.signup.validation.missing_email
+        - auth.signup.validation.invalid_email
+        - auth.signup.validation.missing_firstname
+        - auth.signup.validation.firstname_too_short
+        - auth.signup.validation.firstname_invalid_chars
+        - auth.signup.validation.missing_lastname
+        - auth.signup.validation.lastname_too_short
+        - auth.signup.validation.lastname_invalid_chars

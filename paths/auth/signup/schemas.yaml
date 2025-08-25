@@ -1,0 +1,84 @@
+components:
+  schemas:
+    SignupDetails:
+      type: object
+      required:
+        - email
+        - first_name
+        - last_name
+      properties:
+        email:
+          type: string
+          format: email
+          pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$'
+          description: User's unique email address.
+          examples:
+            - john.doe@example.com
+        first_name:
+          type: string
+          minLength: 2
+          pattern: "^[A-Za-z'\\- ]+$"
+          description: User's first name (letters only, min 2 chars).
+          examples:
+            - John
+        last_name:
+          type: string
+          minLength: 2
+          pattern: "^[A-Za-z'\\- ]+$"
+          description: User's last name (letters only, min 2 chars).
+          examples:
+            - Doe
+        profession:
+          type: string
+          enum:
+            - professional
+            - researcher
+            - analyst
+            - technician
+            - consultant
+          description: Optional. User's profession.
+          examples:
+            - professional
+            - researcher
+            - analyst
+            - technician
+            - consultant
+
+    SignupPassword:
+      type: object
+      required:
+        - password
+        - session_id
+      properties:
+        password:
+          type: string
+          minLength: 8
+          pattern: '^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$'
+          description: |
+            Min 8 characters, at least 1 uppercase, 1 lowercase, 1 number, 1 symbol.
+          example: Str0ng@Pass
+        session_id:
+          type: string
+          format: uuid
+          description: Unique identifier of the signup session.
+          example: "a23d9f81-2b3c-45a2-a213-998f6dc2d712"
+
+    SignupFinalize:
+      type: object
+      required:
+        - accept_terms
+        - session_id
+      properties:
+        accept_terms:
+          type: boolean
+          description: Must be true to accept Terms & Conditions and proceed with registration.
+          example: true
+        accept_marketing:
+          type: boolean
+          description: Optional consent for marketing communications.
+          example: false
+        session_id:
+          type: string
+          format: uuid
+          description: Unique identifier of the signup session.
+          example: "a23d9f81-2b3c-45a2-a213-998f6dc2d712"
